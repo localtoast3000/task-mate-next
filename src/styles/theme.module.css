@@ -1,0 +1,257 @@
+.light {
+  /* GREY SCALE */
+  --gs-900: #3c3c3c;
+  --gs-800: #606060;
+  --gs-700: #818181;
+  --gs-600: #979797;
+  --gs-500: #c2c2c2;
+  --gs-400: #dedede;
+  --gs-300: #f0f0f0;
+  --gs-200: #f5f5f5;
+  --gs-100: #fafafa;
+  --gs-50: #ffffff;
+
+  /* PRIMARY */
+  --prime-900: #19479f;
+  --prime-800: #2165be;
+  --prime-700: #2576d0;
+  --prime-600: #2b88e3;
+  --prime-500: #2e96f1;
+  --prime-400: #49a5f3;
+  --prime-300: #68b5f5;
+  --prime-200: #92caf8;
+  --prime-100: #bcdefb;
+  --prime-50: #e3f2fd;
+
+  /* COMPLEMENTARY */
+  --compl-900: #bd5f1d;
+  --compl-800: #c97321;
+  --compl-700: #d08025;
+  --compl-600: #d68e2b;
+  --compl-500: #da982f;
+  --compl-400: #dfa640;
+  --compl-300: #e3b55d;
+  --compl-200: #eaca89;
+  --compl-100: #f2dfb7;
+  --compl-50: #f9f2e2;
+
+  /* ANALOGOUS SET A */
+  --analo-a-900: #03635f;
+  --analo-a-800: #008789;
+  --analo-a-700: #009ba0;
+  --analo-a-600: #00b0b9;
+  --analo-a-500: #00c1cb;
+  --analo-a-400: #25cad0;
+  --analo-a-300: #4ed4d7;
+  --analo-a-200: #81e1e1;
+  --analo-a-100: #b3edec;
+  --analo-a-50: #e0f8f7;
+
+  /* ANALOGOUS SET B */
+  --analo-b-900: #0012c1;
+  --analo-b-800: #0020ca;
+  --analo-b-700: #2b25d0;
+  --analo-b-600: #432dd8;
+  --analo-b-500: #432dd8;
+  --analo-b-400: #7151e4;
+  --analo-b-300: #8e71e9;
+  --analo-b-200: #b09bef;
+  --analo-b-100: #d0c3f5;
+  --analo-b-50: #ede6fb;
+
+  /* TRIADIC SET A */
+  --triad-a-900: #4600b0;
+  --triad-a-800: #5c09bb;
+  --triad-a-700: #6914c1;
+  --triad-a-600: #7620ca;
+  --triad-a-500: #8025d0;
+  --triad-a-400: #944dd8;
+  --triad-a-300: #a870df;
+  --triad-a-200: #c09be8;
+  --triad-a-100: #d9c3f1;
+  --triad-a-50: #f1e7f9;
+
+  /* TRIADIC SET B */
+  --triad-b-900: #7d1e5b;
+  --triad-b-800: #a32267;
+  --triad-b-700: #b9246e;
+  --triad-b-600: #d02575;
+  --triad-b-500: #e1277a;
+  --triad-b-400: #e3468f;
+  --triad-b-300: #e666a4;
+  --triad-b-200: #eb92be;
+  --triad-b-100: #f2bcd8;
+  --triad-b-50: #f9e4ef;
+}
+
+.dark {
+  /* GREY SCALE */
+  --gs-900: #3c3c3c;
+  --gs-800: #606060;
+  --gs-700: #818181;
+  --gs-600: #979797;
+  --gs-500: #c2c2c2;
+  --gs-400: #dedede;
+  --gs-300: #f0f0f0;
+  --gs-200: #f5f5f5;
+  --gs-100: #fafafa;
+  --gs-50: #ffffff;
+
+  /* PRIMARY */
+  --prime-900: #59037d;
+  --prime-800: #760b8a;
+  --prime-700: #861092;
+  --prime-600: #981799;
+  --prime-500: #a51a9f;
+  --prime-400: #b440ad;
+  --prime-300: #c264bb;
+  --prime-200: #d490ce;
+  --prime-100: #e5bde1;
+  --prime-50: #f4e4f3;
+
+  /* COMPLEMENTARY */
+  --compl-900: #065e00;
+  --compl-800: #287d03;
+  --compl-700: #358e13;
+  --compl-600: #42a01f;
+  --compl-500: #4cae28;
+  --compl-400: #67bb4d;
+  --compl-300: #82c76e;
+  --compl-200: #a6d698;
+  --compl-100: #c9e6c0;
+  --compl-50: #e8f5e5;
+
+  /* ANALOGOUS SET A */
+  --analo-a-900: #32118a;
+  --analo-a-800: #3f1792;
+  --analo-a-700: #4c1f9b;
+  --analo-a-600: #4c1f9b;
+  --analo-a-500: #5423a0;
+  --analo-a-400: #6e44ae;
+  --analo-a-300: #8765bb;
+  --analo-a-200: #a991ce;
+  --analo-a-100: #cbbde1;
+  --analo-a-50: #eae4f3;
+
+  /* ANALOGOUS SET B */
+  --analo-b-900: #a40070;
+  --analo-b-800: #a40070;
+  --analo-b-700: #ba0077;
+  --analo-b-600: #d1007f;
+  --analo-b-500: #e30084;
+  --analo-b-400: #e23799;
+  --analo-b-300: #e45ead;
+  --analo-b-200: #e98dc5;
+  --analo-b-100: #efbadc;
+  --analo-b-50: #f8e4f1;
+
+  /* TRIADIC SET A */
+  --triad-a-900: #9d162a;
+  --triad-a-800: #9d162a;
+  --triad-a-700: #af202a;
+  --triad-a-600: #c2282a;
+  --triad-a-500: #d02f2a;
+  --triad-a-400: #db4245;
+  --triad-a-300: #e55f62;
+  --triad-a-200: #ef8a8d;
+  --triad-a-100: #f7b7ba;
+  --triad-a-50: #fce2e3;
+
+  /* TRIADIC SET B */
+  --triad-b-900: #7d5803;
+  --triad-b-800: #9f7b06;
+  --triad-b-700: #b49108;
+  --triad-b-600: #c8a50c;
+  --triad-b-500: #d7b50d;
+  --triad-b-400: #debe3c;
+  --triad-b-300: #e5c95e;
+  --triad-b-200: #eed88a;
+  --triad-b-100: #f6e7b8;
+  --triad-b-50: #fcf6e2;
+}
+
+.alt {
+  /* GREY SCALE */
+  --gs-900: #3c3c3c;
+  --gs-800: #606060;
+  --gs-700: #818181;
+  --gs-600: #979797;
+  --gs-500: #c2c2c2;
+  --gs-400: #dedede;
+  --gs-300: #f0f0f0;
+  --gs-200: #f5f5f5;
+  --gs-100: #fafafa;
+  --gs-50: #ffffff;
+
+  /* PRIMARY */
+  --prime-900: #bf3900;
+  --prime-800: #c65600;
+  --prime-700: #cb6600;
+  --prime-600: #cf7600;
+  --prime-500: #d08100;
+  --prime-400: #d59300;
+  --prime-300: #dca512;
+  --prime-200: #e6be60;
+  --prime-100: #f0d8a0;
+  --prime-50: #f9f0d9;
+
+  /* COMPLEMENTARY */
+  --compl-900: #00269c;
+  --compl-800: #0038b2;
+  --compl-700: #0042bf;
+  --compl-600: #004ccb;
+  --compl-500: #0054d6;
+  --compl-400: #2b6ee1;
+  --compl-300: #6089e6;
+  --compl-200: #93aaed;
+  --compl-100: #bfcbf4;
+  --compl-50: #e6eafb;
+
+  /* ANALOGOUS SET A */
+  --analo-a-900: #a2230c;
+  --analo-a-800: #bb2f15;
+  --analo-a-700: #c83619;
+  --analo-a-600: #d63c1d;
+  --analo-a-500: #e04121;
+  --analo-a-400: #e25f40;
+  --analo-a-300: #e67b60;
+  --analo-a-200: #eda08c;
+  --analo-a-100: #f4c5b9;
+  --analo-a-50: #f6e6e5;
+
+  /* ANALOGOUS SET B */
+  --analo-b-900: #7e7b1f;
+  --analo-b-800: #98a22e;
+  --analo-b-700: #a8b936;
+  --analo-b-600: #b7cf3f;
+  --analo-b-500: #c4e246;
+  --analo-b-400: #cbe660;
+  --analo-b-300: #d5eb7c;
+  --analo-b-200: #e0f1a1;
+  --analo-b-100: #ecf6c6;
+  --analo-b-50: #f7fce8;
+
+  /* TRIADIC SET A */
+  --triad-a-900: #008212;
+  --triad-a-800: #2ba522;
+  --triad-a-700: #47ba2d;
+  --triad-a-600: #60cf38;
+  --triad-a-500: #70e040;
+  --triad-a-400: #89e660;
+  --triad-a-300: #a1ec80;
+  --triad-a-200: #bef2a7;
+  --triad-a-100: #d8f7ca;
+  --triad-a-50: #f0fcea;
+
+  /* TRIADIC SET B */
+  --triad-b-900: #006f3e;
+  --triad-b-800: #009056;
+  --triad-b-700: #00a264;
+  --triad-b-600: #00b573;
+  --triad-b-500: #00c57f;
+  --triad-b-400: #00d092;
+  --triad-b-300: #00dba5;
+  --triad-b-200: #60e6be;
+  --triad-b-100: #a9f0d7;
+  --triad-b-50: #dcfaef;
+}
