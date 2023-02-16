@@ -11,3 +11,13 @@
   font-size: clamp(2rem, 5vw, 2rem);
   justify-self: start;
 }
+.darkModeBtn {
+  background-color: var(--ts-300);
+  margin-left: auto;
+}
+.darkModeBtnLightIcon {
+  fill: var(--gs-50);
+}
+.darkModeBtnDarkIcon {
+  fill: var(--gs-50);
+}

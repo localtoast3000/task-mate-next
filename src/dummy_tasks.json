@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "description": "Re-new you drivers licence",
+    "completion_date": "02/02/2023",
+    "completed": false
+  },
+  {
+    "id": 2,
+    "description": "Book a doctors appoinment for my daughter",
+    "completion_date": "14/02/2023",
+    "completed": false
+  },
+  {
+    "id": 3,
+    "description": "Fix the washing machine",
+    "completion_date": "16/02/2023",
+    "completed": false
+  },
+  {
+    "id": 4,
+    "description": "Go for a drink with friends",
+    "completion_date": "20/02/2023",
+    "completed": false
+  },
+  {
+    "id": 5,
+    "description": "Plan holidays",
+    "completion_date": "21/02/2023",
+    "completed": false
+  },
+  {
+    "id": 6,
+    "description": "Read a book about science",
+    "completion_date": "25/02/2023",
+    "completed": false
+  }
+]

@@ -38,20 +38,57 @@ function ThemeProvider({ cssThemeModule, defaultTheme, children }) {
     return `var(--${cssVars[theme]})`;
   };
 
+  const bodyBackgroundColors = (cssVars) => {
+    document.body.style = `background: var(--${cssVars[theme]})`;
+  };
+
   const DarkModeBtn = ({
+    className = '',
+    darkIconClass = '',
+    lightIconClass = '',
+    iconScale = 1,
+    buttonProps = {},
+    iconProps = {},
+    iconStyle = {},
     DarkIcon = MoonIcon,
     LightIcon = SunIcon,
-    darkIconClass,
-    lightIconClass,
   }) => {
+    const [lightIconWidth, setLightIconWidth] = useState(0);
+    const [darkIconWidth, setDarkIconWidth] = useState(0);
+
+    iconScale = iconScale >= 0.1 ? iconScale : 1;
+
+    useEffect(() => {
+      theme === 'light'
+        ? setDarkIconWidth(25 * iconScale)
+        : setLightIconWidth(32 * iconScale);
+    }, [theme]);
+
     return (
       <button
-        className={darkModeBtnStyles.btn}
-        onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+        className={`${darkModeBtnStyles.btn} ${className}`}
+        onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+        {...buttonProps}>
         {theme === 'light' ? (
-          <DarkIcon className={`${darkModeBtnStyles.darkIcon} ${darkIconClass}`} />
+          <DarkIcon
+            className={`${darkModeBtnStyles.darkIcon} ${darkIconClass}`}
+            style={{
+              width: darkIconWidth,
+              transition: 'width 0.2s ease-in',
+              ...iconStyle,
+            }}
+            {...iconProps}
+          />
         ) : (
-          <LightIcon className={`${darkModeBtnStyles.lightIcon} ${lightIconClass}`} />
+          <LightIcon
+            className={`${darkModeBtnStyles.lightIcon} ${lightIconClass}`}
+            style={{
+              width: lightIconWidth,
+              transition: 'width 0.2s ease-in',
+              ...iconStyle,
+            }}
+            {...iconProps}
+          />
         )}
       </button>
     );
@@ -137,7 +174,15 @@ function ThemeProvider({ cssThemeModule, defaultTheme, children }) {
   };
 
   return (
-    <ThemeContext.Provider value={{ colors, setTheme, ThemeSelector, DarkModeBtn }}>
+    <ThemeContext.Provider
+      value={{
+        setTheme,
+        colors,
+        bodyBackgroundColors,
+        ThemeSelector,
+        DarkModeBtn,
+        theme,
+      }}>
       {children}
     </ThemeContext.Provider>
   );
