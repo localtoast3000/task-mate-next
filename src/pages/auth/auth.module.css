@@ -1,0 +1,35 @@
+.mainContainer {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100px auto auto;
+  min-height: 100vh;
+  height: auto;
+  padding: 20px;
+}
+.form {
+  justify-self: center;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: repeat(5, auto);
+  width: 100%;
+  min-height: 500px;
+  max-height: 600px;
+  max-width: 400px;
+}
+.inputWrapper {
+  width: 100%;
+}
+.input {
+  width: 100%;
+}
+.submitBtn {
+  width: 100%;
+  max-width: 300px;
+  height: 50px;
+  justify-self: center;
+  align-self: start;
+  border-radius: 5px;
+  font-size: clamp(0.8rem, 5vw, 1.1rem);
+  font-weight: 600;
+  margin-top: 10px;
+}

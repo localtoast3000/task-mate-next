@@ -1,12 +1,12 @@
 import Head from 'next/head';
-import styles from '@/styles/pages/index.module.css';
+import styles from './index.module.css';
 import Logo from '@/components/shared/logo/logo';
 import { LinkBtn } from '@/components/shared/buttons/buttons';
 import { useEffect } from 'react';
 import { useTheme } from '@/hooks/theme/theme';
 import LandingTaskSvg from '@/components/pages/index/landing-task-svg/landing-task-svg';
 
-export default function Home() {
+export default function Index() {
   const { theme, colors, bodyBackgroundColors, DarkModeBtn } = useTheme();
 
   useEffect(() => {
