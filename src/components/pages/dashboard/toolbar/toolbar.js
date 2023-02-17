@@ -13,11 +13,22 @@ export default function ToolBar() {
         backgroundColor: colors({
           light: 'prime-600',
           dark: 'prime-600',
-          alt: 'prime-600',
         }),
       }}>
       <Link href='/'>
-        <Logo className={styles.logo} />
+        <Logo
+          className={styles.logo}
+          style={{
+            color: colors({
+              light: 'prime-200',
+              dark: 'prime-200',
+            }),
+            textShadow: `0px 3px 3px ${colors({
+              light: 'prime-900',
+              dark: 'prime-900',
+            })}`,
+          }}
+        />
       </Link>
       <DarkModeBtn
         className={styles.darkModeBtn}

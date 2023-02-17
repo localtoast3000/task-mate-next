@@ -1,0 +1,48 @@
+.taskContainer {
+  display: grid;
+  grid-template-columns: 100px auto auto;
+  grid-template-rows: 100%;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+.id {
+  --diameter: 80px;
+  align-self: center;
+  justify-self: start;
+  display: grid;
+  width: var(--diameter);
+  height: var(--diameter);
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+.textContainer {
+  align-self: center;
+  padding-left: 10px;
+}
+.textWrapper {
+  display: grid;
+  grid-template-columns: 50px auto;
+  grid-template-rows: auto;
+}
+.textWrapper:nth-child(1) {
+  margin-bottom: 10px;
+}
+.editIcon {
+  cursor: pointer;
+  width: 30px;
+  height: auto;
+  align-self: start;
+  justify-self: end;
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+.editIcon:hover {
+  opacity: 0.7;
+}
+.editIcon:active {
+  opacity: 1;
+}

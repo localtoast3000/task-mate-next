@@ -1,12 +1,12 @@
 import { Inter, Domine } from '@next/font/google';
 
 const inter = Inter({
-  variable: '--logo-font',
+  variable: '--prime-font',
   subsets: ['latin'],
 });
 
 const domine = Domine({
-  variable: '--global-font',
+  variable: '--second-font',
   subsets: ['latin'],
 });
 

@@ -1,0 +1,17 @@
+.modalBackgroundLayer {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  z-index: 9999999;
+}
+.modal {
+  justify-self: center;
+}

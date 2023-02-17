@@ -10,6 +10,7 @@
 .logo {
   font-size: clamp(2rem, 5vw, 2rem);
   justify-self: start;
+  color: var(--gs-50);
 }
 .darkModeBtn {
   background-color: var(--ts-300);

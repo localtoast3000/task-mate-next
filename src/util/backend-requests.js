@@ -22,15 +22,16 @@ export async function getData(endpoint) {
 }
 
 export async function postData(endpoint, data) {
-  const result = await fetch(constructURL(endpoint), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-  const res = await result.json();
-  return res;
+  console.log(data);
+  // const result = await fetch(constructURL(endpoint), {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify(data),
+  // });
+  // const res = await result.json();
+  // return res;
 }
 
 export async function deleteData(endpoint, data) {

@@ -38,6 +38,11 @@ function ThemeProvider({ cssThemeModule, defaultTheme, children }) {
     return `var(--${cssVars[theme]})`;
   };
 
+  const colorValues = (cssVars) => {
+    const color = getComputedStyle(document.body).getPropertyValue(`--${cssVars[theme]}`);
+    return color;
+  };
+
   const bodyBackgroundColors = (cssVars) => {
     document.body.style = `background: var(--${cssVars[theme]})`;
   };
@@ -178,6 +183,7 @@ function ThemeProvider({ cssThemeModule, defaultTheme, children }) {
       value={{
         setTheme,
         colors,
+        colorValues,
         bodyBackgroundColors,
         ThemeSelector,
         DarkModeBtn,
