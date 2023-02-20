@@ -33,8 +33,9 @@ export default function Tasks() {
       <>
         <ToolBar />
         <main className={styles.mainContainer}>
-          {tasks.map((task) => (
+          {tasks.map((task, i) => (
             <Task
+              key={i}
               style={{
                 boxShadow: `0px 3px 10px ${colors({
                   light: 'gs-400',

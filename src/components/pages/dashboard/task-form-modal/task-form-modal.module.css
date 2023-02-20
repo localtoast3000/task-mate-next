@@ -1,4 +1,5 @@
 .modal {
+  position: relative;
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: auto auto;
@@ -9,6 +10,21 @@
   background-color: white;
   border-radius: 5px;
   padding: 10px;
+}
+.tabsBar {
+  display: grid;
+  grid-template-columns: auto auto;
+  width: 100%;
+}
+.tabsWrapper {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  width: 100%;
+  gap: 10px;
+}
+.tabBtn {
+  border-radius: 5px;
+  font-weight: 500;
 }
 .closeIcon {
   width: 40px;

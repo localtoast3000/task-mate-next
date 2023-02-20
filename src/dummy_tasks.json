@@ -2,37 +2,37 @@
   {
     "id": 1,
     "description": "Re-new you drivers licence",
-    "ends": "02/02/2023",
+    "ends": "2023-02-02T17:02:00.000Z",
     "completed": false
   },
   {
     "id": 2,
     "description": "Book a doctors appoinment for my daughter",
-    "ends": "14/02/2023",
+    "ends": "2023-02-02T17:02:00.000Z",
     "completed": false
   },
   {
     "id": 3,
     "description": "Fix the washing machine",
-    "ends": "16/02/2023",
+    "ends": "2023-02-02T17:02:00.000Z",
     "completed": false
   },
   {
     "id": 4,
     "description": "Go for a drink with friends",
-    "ends": "20/02/2023",
+    "ends": "2023-02-02T17:02:00.000Z",
     "completed": false
   },
   {
     "id": 5,
     "description": "Plan holidays",
-    "ends": "21/02/2023",
+    "ends": "2023-02-02T17:02:00.000Z",
     "completed": false
   },
   {
     "id": 6,
     "description": "Read a book about science",
-    "ends": "25/02/2023",
+    "ends": "2023-02-02T17:02:00.000Z",
     "completed": false
   }
 ]

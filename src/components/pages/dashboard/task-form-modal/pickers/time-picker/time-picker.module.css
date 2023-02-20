@@ -1,0 +1,178 @@
+.timePicker {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+.ripple {
+  display: none !important;
+}
+.mainContainer {
+  position: relative !important;
+  width: 100% !important;
+  margin: 0 !important;
+  height: auto !important;
+  min-width: auto !important;
+  max-width: auto !important;
+  min-height: auto !important;
+  max-height: auto !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.firstWrapper {
+  position: relative !important;
+  display: grid;
+  min-width: auto !important;
+  max-width: auto !important;
+  min-height: auto !important;
+  max-height: auto !important;
+  width: 100% !important;
+  margin: 0 !important;
+  height: auto !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.secondWrapper {
+  position: relative !important;
+  width: 100% !important;
+  margin: 0 !important;
+  height: auto !important;
+  min-width: auto !important;
+  max-width: auto !important;
+  min-height: auto !important;
+  max-height: auto !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.thirdWrapper {
+  position: relative !important;
+  margin: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-width: auto !important;
+  max-width: auto !important;
+  min-height: auto !important;
+  max-height: auto !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.contentWrapper {
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  min-width: auto !important;
+  max-width: auto !important;
+  min-height: auto !important;
+  max-height: auto !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 30px;
+}
+
+.arrowSwitchers {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto;
+  width: 100% !important;
+  align-items: center;
+  justify-content: center;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 20%;
+}
+
+.switcherBtnsSpacer {
+  position: relative !important;
+  display: none;
+}
+.clock {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 100%;
+  grid-template-rows: auto auto auto;
+  align-items: center !important;
+  justify-content: center !important;
+  grid-column: 1;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.clockMask {
+  align-self: center !important;
+  justify-self: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.clockFace {
+  position: relative !important;
+  align-self: center !important;
+  justify-self: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.clockPointer {
+}
+.amPmWrapper {
+  justify-self: center;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  padding: 10px 20px;
+  max-width: 300px;
+}
+.amBtnMain {
+  justify-self: start;
+}
+.pmBtnMain {
+  justify-self: end;
+}
+.amBtnMain,
+.pmBtnMain {
+  position: relative !important;
+  display: grid;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  grid-row: 2;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}

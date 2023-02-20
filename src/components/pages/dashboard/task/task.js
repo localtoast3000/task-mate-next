@@ -1,6 +1,7 @@
 import styles from './task.module.css';
 import EditModal from './edit/edit-modal';
 import { useState } from 'react';
+import DateTime from '@/util/date-time';
 
 export default function Task({
   style = {},
@@ -11,6 +12,7 @@ export default function Task({
   ...props
 }) {
   const [editing, setEditing] = useState(false);
+  const dateTime = new DateTime(props.ends);
 
   return (
     <>
@@ -24,9 +26,15 @@ export default function Task({
           {props.description[0].toUpperCase()}
         </div>
         <div className={styles.textContainer}>
-          <div className={styles.textWrapper}>
-            <p style={headerStyle}>Ends: </p>
-            <p style={textStyle}>{props.ends}</p>
+          <div className={styles.dateTime}>
+            <div className={styles.textWrapper}>
+              <p style={headerStyle}>Date: </p>
+              <p style={textStyle}>{dateTime.formatedDate}</p>
+            </div>
+            <div className={styles.textWrapper}>
+              <p style={headerStyle}>Time: </p>
+              <p style={textStyle}>{dateTime.formatedTime}</p>
+            </div>
           </div>
           <p style={textStyle}>{props.description}</p>
         </div>
