@@ -99,6 +99,14 @@ export default function TaskFormModal({ onCloseClick, dateTime, discription }) {
           })}>
           {tab === 'date' && (
             <DatePicker
+              colors={{
+                activeBackground: colors({ light: 'prime-500', dark: 'prime-500' }),
+                activeText: colors({ light: 'gs-50', dark: 'gs-50' }),
+                inactiveBackground: colors({ light: 'ts-500', dark: 'ts-500' }),
+                inactiveText: colors({ light: 'gs-500', dark: 'gs-500' }),
+                defaultBackground: colors({ light: 'gs-300', dark: 'gs-300' }),
+                defaultText: colors({ light: 'gs-700', dark: 'gs-500' }),
+              }}
               initialDate={formValues.dateTime}
               onChange={(dateTime) => setFormValues({ ...formValues, dateTime })}
             />
