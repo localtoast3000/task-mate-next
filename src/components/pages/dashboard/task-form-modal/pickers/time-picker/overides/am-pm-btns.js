@@ -4,6 +4,7 @@ import overide from './overide';
 export default function overideAmPmButtons(
   picker,
   amPmDefaults,
+  date,
   { colors, cssModulesObject, initialVal }
 ) {
   const amBtn = picker.querySelector('.MuiClock-amButton');
@@ -19,7 +20,7 @@ export default function overideAmPmButtons(
   });
 
   if (!amPmDefaults) {
-    const timePosition = format(new Date(), 'aaa');
+    const timePosition = format(date, 'aaa');
     initialVal({
       am: {
         hash: amBtn.classList[4].split('-')[1],
@@ -33,16 +34,14 @@ export default function overideAmPmButtons(
     overide(picker, {
       selector: '.MuiClock-amButton',
       style: {
-        backgroundColor:
-          timePosition === 'am' ? colors.activeBackground : colors.defaultBackground,
+        backgroundColor: timePosition === 'am' ? colors.activeBackground : 'transparent',
       },
       className: cssModulesObject.amBtn,
     });
     overide(picker, {
       selector: '.MuiClock-pmButton',
       style: {
-        backgroundColor:
-          timePosition === 'pm' ? colors.activeBackground : colors.defaultBackground,
+        backgroundColor: timePosition === 'pm' ? colors.activeBackground : 'transparent',
       },
       className: cssModulesObject.amBtn,
     });
@@ -56,13 +55,15 @@ export default function overideAmPmButtons(
           selector: '.MuiClock-amButton',
           style: {
             backgroundColor: colors.activeBackground,
+            color: colors.activeText,
           },
         });
       } else {
         overide(picker, {
           selector: '.MuiClock-amButton',
           style: {
-            backgroundColor: colors.defaultBackground,
+            backgroundColor: 'transparent',
+            color: colors.defaultText,
           },
         });
       }
@@ -71,7 +72,8 @@ export default function overideAmPmButtons(
         overide(picker, {
           selector: '.MuiClock-amButton',
           style: {
-            backgroundColor: colors.defaultBackground,
+            backgroundColor: 'transparent',
+            color: colors.defaultText,
           },
         });
       } else {
@@ -79,6 +81,7 @@ export default function overideAmPmButtons(
           selector: '.MuiClock-amButton',
           style: {
             backgroundColor: colors.activeBackground,
+            color: colors.activeText,
           },
         });
       }
@@ -90,13 +93,15 @@ export default function overideAmPmButtons(
           selector: '.MuiClock-pmButton',
           style: {
             backgroundColor: colors.activeBackground,
+            color: colors.activeText,
           },
         });
       } else {
         overide(picker, {
           selector: '.MuiClock-pmButton',
           style: {
-            backgroundColor: colors.defaultBackground,
+            backgroundColor: 'transparent',
+            color: colors.defaultText,
           },
         });
       }
@@ -105,7 +110,8 @@ export default function overideAmPmButtons(
         overide(picker, {
           selector: '.MuiClock-pmButton',
           style: {
-            backgroundColor: colors.defaultBackground,
+            backgroundColor: 'transparent',
+            color: colors.defaultText,
           },
         });
       } else {
@@ -113,6 +119,7 @@ export default function overideAmPmButtons(
           selector: '.MuiClock-pmButton',
           style: {
             backgroundColor: colors.activeBackground,
+            color: colors.activeText,
           },
         });
       }

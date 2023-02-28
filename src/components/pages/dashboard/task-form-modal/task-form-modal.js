@@ -21,13 +21,12 @@ const validationSchema = yup
   })
   .required();
 
-export default function TaskFormModal({ onCloseClick }) {
+export default function TaskFormModal({ onCloseClick, dateTime, discription }) {
   const { colors } = useTheme();
   const [tab, setTab] = useState('date');
   const [formValues, setFormValues] = useState({
-    date: '',
-    time: '',
-    task: '',
+    dateTime,
+    discription,
   });
 
   const {
@@ -98,18 +97,24 @@ export default function TaskFormModal({ onCloseClick }) {
             // if (res.error) return setUserExistsError(true);
             // setUserExistsError(false);
           })}>
-          {tab === 'date' && <DatePicker />}
+          {tab === 'date' && (
+            <DatePicker
+              initialDate={formValues.dateTime}
+              onChange={(dateTime) => setFormValues({ ...formValues, dateTime })}
+            />
+          )}
           {tab === 'time' && (
             <TimePicker
               colors={{
                 activeBackground: colors({ light: 'prime-500', dark: 'prime-500' }),
-                activeText: colors({ light: 'prime-500', dark: 'prime-500' }),
-                inactiveBackground: '',
-                inactiveText: '',
-                defaultBackground: '',
-                defaultText: '',
+                activeText: colors({ light: 'gs-50', dark: 'gs-50' }),
+                inactiveBackground: colors({ light: 'ts-500', dark: 'ts-500' }),
+                inactiveText: colors({ light: 'gs-500', dark: 'gs-500' }),
+                defaultBackground: colors({ light: 'gs-300', dark: 'gs-300' }),
+                defaultText: colors({ light: 'gs-700', dark: 'gs-500' }),
               }}
-              onChange={(date) => {}}
+              initialDate={formValues.dateTime}
+              onChange={(dateTime) => setFormValues({ ...formValues, dateTime })}
             />
           )}
           {tab === 'task' && (

@@ -3,8 +3,11 @@
   width: 100%;
   height: auto;
 }
-.ripple {
-  display: none !important;
+.timeDisplay {
+  font-size: 2rem;
+}
+.timePicker :global .MuiTouchRipple-root {
+  display: none;
 }
 .mainContainer {
   position: relative !important;
@@ -175,4 +178,11 @@
   bottom: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
+}
+
+@media (max-width: 300px) {
+  .timePicker :global .MuiClock-clock {
+    width: 70vw;
+    height: 70vw;
+  }
 }

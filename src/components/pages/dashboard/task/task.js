@@ -16,7 +16,15 @@ export default function Task({
 
   return (
     <>
-      {editing ? <EditModal onCloseClick={() => setEditing(false)} /> : <></>}
+      {editing ? (
+        <EditModal
+          onCloseClick={() => setEditing(false)}
+          dateTime={dateTime.dateTime}
+          description={props.description}
+        />
+      ) : (
+        <></>
+      )}
       <article
         className={styles.taskContainer}
         style={style}>
