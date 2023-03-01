@@ -11,8 +11,9 @@ import { BasicBtn } from '@/components/shared/buttons/buttons';
 import { Input, SubmitBtn } from '@/components/shared/form/form';
 import { useDispatch } from 'react-redux';
 import { mountUser } from '@/reducers/users';
+import { addYears, addMilliseconds, endOfDay } from 'date-fns';
 import { DatePicker, TimePicker } from './pickers/pickers';
-import DateTime from '@/util/date-time';
+import {CalenderIcon, ClockIcon, PencilIcon, RightArrowIcon} from '@/components/shared/icons/icons'
 
 const validationSchema = yup
   .object({
@@ -21,12 +22,13 @@ const validationSchema = yup
   })
   .required();
 
-export default function TaskFormModal({ onCloseClick, dateTime, discription }) {
+export default function TaskFormModal({ onCloseClick, dateTime, description }) {
   const { colors } = useTheme();
   const [tab, setTab] = useState('date');
+
   const [formValues, setFormValues] = useState({
     dateTime,
-    discription,
+    description,
   });
 
   const {
@@ -65,6 +67,8 @@ export default function TaskFormModal({ onCloseClick, dateTime, discription }) {
     label: 'var(--prime-font)',
   };
 
+  const dateLimits = {min: new Date(), max: endOfDay(addYears(new Date(), 10))}
+
   return (
     <Modal
       style={{
@@ -84,6 +88,7 @@ export default function TaskFormModal({ onCloseClick, dateTime, discription }) {
         <Tabs
           onCloseClick={onCloseClick}
           selectedTab={setTab}
+          currentTab={tab}
           colors={colors}
         />
         <form
@@ -108,6 +113,8 @@ export default function TaskFormModal({ onCloseClick, dateTime, discription }) {
                 defaultText: colors({ light: 'gs-700', dark: 'gs-500' }),
               }}
               initialDate={formValues.dateTime}
+              minDate={dateLimits.min}
+              maxDate={dateLimits.max}
               onChange={(dateTime) => setFormValues({ ...formValues, dateTime })}
             />
           )}
@@ -122,6 +129,8 @@ export default function TaskFormModal({ onCloseClick, dateTime, discription }) {
                 defaultText: colors({ light: 'gs-700', dark: 'gs-500' }),
               }}
               initialDate={formValues.dateTime}
+              minTime={dateLimits.min}
+              maxTime={dateLimits.max}
               onChange={(dateTime) => setFormValues({ ...formValues, dateTime })}
             />
           )}
@@ -136,6 +145,7 @@ export default function TaskFormModal({ onCloseClick, dateTime, discription }) {
               control={control}
               error={errors.details && true}
               variant='standard'
+              defaultValue={description}
               helperText={
                 errors.details?.type &&
                 (() => {
@@ -148,54 +158,33 @@ export default function TaskFormModal({ onCloseClick, dateTime, discription }) {
               fonts={inputFonts}
             />
           )}
-
-          <SubmitBtn
-            style={{
-              backgroundColor: colors({
-                light: 'prime-700',
-                dark: 'prime-400',
-              }),
-              boxShadow: `0px 3px 3px ${colors({
-                light: 'prime-900',
-                dark: 'prime-900',
-              })}`,
-              color: colors({
-                light: 'gs-50',
-                dark: 'gs-50',
-              }),
-            }}
-            className={styles.submitBtn}>
-            Submit
-          </SubmitBtn>
         </form>
+        <div className={styles.bottomContainer}>
+          {tab !== 'task' ? <BasicBtn onClick={() => {
+            if(tab === "date") setTab('time')
+            if(tab === "time") setTab('task')
+          }} className={styles.nextBtn}><RightArrowIcon className={styles.nextIcon} style={{fill: colors({ light: 'gs-700', dark: 'gs-500' })}} /></BasicBtn> : <BasicBtn className={styles.okBtn} style={{
+            color: colors({
+              light: 'prime-500',
+              dark: 'prime-500',
+            })
+          }}>OK</BasicBtn>}
+        </div>
       </div>
     </Modal>
   );
 }
 
-function Tabs({ onCloseClick, colors, selectedTab }) {
-  const [selected, setSelected] = useState({
-    date: true,
-    time: false,
-    task: false,
-  });
+function Tabs({ onCloseClick, colors, selectedTab, currentTab }) {
 
   const selectedStyles = {
-    backgroundColor: colors({
+    fill: colors({
       light: 'prime-500',
       dark: 'prime-500',
     }),
-    color: colors({
-      light: 'gs-50',
-      dark: 'gs-50',
-    }),
   };
   const defaultStyles = {
-    backgroundColor: colors({
-      light: 'ts-500',
-      dark: 'ts-800',
-    }),
-    color: colors({
+    fill: colors({
       light: 'gs-900',
       dark: 'gs-50',
     }),
@@ -206,42 +195,18 @@ function Tabs({ onCloseClick, colors, selectedTab }) {
       <div className={styles.tabsWrapper}>
         <BasicBtn
           className={styles.tabBtn}
-          style={selected.date ? selectedStyles : defaultStyles}
-          onClick={() => {
-            setSelected({
-              date: true,
-              time: false,
-              task: false,
-            });
-            selectedTab('date');
-          }}>
-          Date
+          onClick={() => selectedTab('date')}>
+          <CalenderIcon className={styles.tabIcon} style={currentTab === 'date' ? selectedStyles : defaultStyles} />
         </BasicBtn>
         <BasicBtn
           className={styles.tabBtn}
-          style={selected.time ? selectedStyles : defaultStyles}
-          onClick={() => {
-            setSelected({
-              date: false,
-              time: true,
-              task: false,
-            });
-            selectedTab('time');
-          }}>
-          Time
+          onClick={() => selectedTab('time')}>
+          <ClockIcon className={styles.tabIcon} style={currentTab === 'time' ? selectedStyles : defaultStyles} />
         </BasicBtn>
         <BasicBtn
           className={styles.tabBtn}
-          style={selected.task ? selectedStyles : defaultStyles}
-          onClick={() => {
-            setSelected({
-              date: false,
-              time: false,
-              task: true,
-            });
-            selectedTab('task');
-          }}>
-          Task
+          onClick={() => selectedTab('task')}>
+          <PencilIcon className={styles.tabIcon} style={currentTab === 'task' ? selectedStyles : defaultStyles} />
         </BasicBtn>
       </div>
       <CloseIcon

@@ -5,6 +5,7 @@
 }
 .timeDisplay {
   font-size: 2rem;
+  margin-bottom: 20px;
 }
 .timePicker :global .MuiTouchRipple-root {
   display: none;

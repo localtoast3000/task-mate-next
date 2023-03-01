@@ -3,11 +3,9 @@
 .datePicker :global .MuiTouchRipple-root {
   display: none;
 }
-.datePicker :global .Mui-selected {
-  background-color: red;
-}
 
 .dateDisplay {
   font-size: 1.5rem;
   margin: 10px 0;
+  margin-bottom: 30px;
 }

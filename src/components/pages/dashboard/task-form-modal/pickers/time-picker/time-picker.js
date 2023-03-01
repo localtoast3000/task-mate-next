@@ -20,6 +20,7 @@ export default function TimePicker({
     defaultText: 'black',
   },
   onChange,
+  ...props
 }) {
   const [value, setValue] = useState(initialDate);
   const wrapperRef = useRef();
@@ -36,6 +37,7 @@ export default function TimePicker({
   });
 
   useEffect(() => {
+    console.log(props.minTime)
     // Adds wrapper div to am pm buttons
     if (!wrapperRef.current.querySelector(`.${styles.amPmWrapper}`)) {
       const amPmWrapper = document.createElement('div');
@@ -149,6 +151,11 @@ export default function TimePicker({
             color: colors.activeText,
           },
         },
+        '.Mui-disabled': {
+          style: {
+            color: colors.inactiveText,
+          },
+        },
       });
 
       // String containing data about the current selected time
@@ -173,6 +180,17 @@ export default function TimePicker({
   }, []);
 
   return (
+    <>
+    <style>
+        {`
+.${styles.datePicker} .Mui-selected {
+  background-color: ${colors.activeBackground} !important;
+}
+.${styles.datePicker} .Mui-disabled {
+  color: ${colors.inactiveText};
+}
+        `}
+      </style>
     <div
       className={`${styles.timePicker} ${className}`}
       style={{
@@ -205,9 +223,11 @@ export default function TimePicker({
               ).style.fill = colors.inactiveText;
             }
           }}
+          {...props}
           renderInput={(params) => <InputComponent {...params} />}
         />
       </LocalizationProvider>
     </div>
+    </>
   );
 }

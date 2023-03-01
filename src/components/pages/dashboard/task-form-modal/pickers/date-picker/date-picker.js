@@ -3,7 +3,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import styles from './date-picker.module.css';
-import { format } from 'date-fns';
+import { format, addYears } from 'date-fns';
 import { overides } from './overides/overides';
 import { color } from '@mui/system';
 
@@ -20,6 +20,7 @@ export default function DatePicker({
     defaultText: 'black',
   },
   onChange,
+  ...props
 }) {
   const [value, setValue] = useState(initialDate);
   const wrapperRef = useRef();
@@ -148,6 +149,11 @@ export default function DatePicker({
             backgroundColor: colors.inactiveBackground,
           },
         },
+        '.Mui-disabled': {
+          style: {
+            color: colors.inactiveText,
+          }
+        }
       });
     }, 0);
     return () => clearInterval(interval);
@@ -165,6 +171,9 @@ export default function DatePicker({
 }
 .${styles.datePicker} .Mui-selected {
   background-color: ${colors.activeBackground} !important;
+}
+.${styles.datePicker} .Mui-disabled {
+  color: ${colors.inactiveText};
 }
 .${styles.datePicker} .MuiPickersDay-today {
   border: solid 1px ${colors.activeBackground};
@@ -218,6 +227,7 @@ export default function DatePicker({
               setValue(newValue);
               onChange(newValue);
             }}
+            {...props}
             renderInput={(params) => <InputComponent {...params} />}
           />
         </LocalizationProvider>
