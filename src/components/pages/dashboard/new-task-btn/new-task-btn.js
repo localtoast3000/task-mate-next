@@ -9,7 +9,7 @@ export default function NewTaskBtn({ colors, ...props }) {
 
   return (
     <>
-      {showModal ? <TaskFormModal /> : <></>}
+      {showModal ? <TaskFormModal onCloseClick={() => setShowModal(false)}/> : <></>}
       <BasicBtn
         onClick={() => setShowModal(true)}
         className={styles.btn}
