@@ -2,26 +2,27 @@
   position: relative;
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: 50px auto auto;
+  grid-template-rows: 50px auto;
   justify-self: center;
+  align-items: start;
   width: 100%;
   max-width: 400px;
   min-height: 600px;
   height: auto;
-  background-color: white;
   border-radius: 5px;
-  padding: 10px;
+  padding: 15px 20px;
 }
 .tabsBar {
   display: grid;
   grid-template-columns: auto auto;
   width: 100%;
+  margin-bottom: 30px;
 }
 .tabsWrapper {
   display: grid;
-  grid-template-columns: repeat(3, 40px);
+  grid-template-columns: repeat(3, 30px);
   width: 100%;
-  gap: 20px;
+  gap: 30px;
 }
 .tabBtn {
   background-color: transparent;
@@ -46,11 +47,11 @@
 .form {
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: auto;
+  grid-template-rows: auto 50px;
   justify-self: center;
-  align-self: center;
+  align-self: start;
   width: 100%;
-  padding: 20px;
+  height: 100%;
 }
 .input {
   width: 100%;
@@ -61,17 +62,20 @@
   grid-template-rows: 100%;
   width: 100%;
 }
-.nextBtn, .okBtn {
+.nextBtn,
+.okBtn {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
   width: 50px;
   height: 50px;
   grid-column: 2;
-  margin-left: auto;
-  margin-top: auto;
   transition: opacity 0.2s ease-in;
   background-color: transparent;
   font-size: 1.5rem;
+  justify-self: end;
 }
-.nextBtn:hover, .okBtn:hover {
+.nextBtn:hover,
+.okBtn:hover {
   opacity: 0.6;
 }
-

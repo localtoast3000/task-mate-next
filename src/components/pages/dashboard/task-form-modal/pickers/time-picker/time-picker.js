@@ -37,7 +37,6 @@ export default function TimePicker({
   });
 
   useEffect(() => {
-    console.log(props.minTime)
     // Adds wrapper div to am pm buttons
     if (!wrapperRef.current.querySelector(`.${styles.amPmWrapper}`)) {
       const amPmWrapper = document.createElement('div');
@@ -181,7 +180,7 @@ export default function TimePicker({
 
   return (
     <>
-    <style>
+      <style>
         {`
 .${styles.datePicker} .Mui-selected {
   background-color: ${colors.activeBackground} !important;
@@ -191,43 +190,43 @@ export default function TimePicker({
 }
         `}
       </style>
-    <div
-      className={`${styles.timePicker} ${className}`}
-      style={{
-        color: colors.defaultText,
-      }}
-      ref={wrapperRef}>
-      <p className={`${styles.timeDisplay}`}>{format(value, 'HH:mm')}</p>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <StaticTimePicker
-          displayStaticWrapperAs='desktop'
-          value={value}
-          onChange={(val) => {
-            setValue(val);
-          }}
-          onViewChange={(view) => {
-            // Changes hours / mins icons colours on view change
-            if (view === 'hours') {
-              wrapperRef.current.querySelector(
-                '.MuiSvgIcon-root[data-testid=ArrowLeftIcon]'
-              ).style.fill = colors.activeBackground;
-              wrapperRef.current.querySelector(
-                '.MuiSvgIcon-root[data-testid=ArrowRightIcon]'
-              ).style.fill = colors.inactiveText;
-            } else {
-              wrapperRef.current.querySelector(
-                '.MuiSvgIcon-root[data-testid=ArrowRightIcon]'
-              ).style.fill = colors.activeBackground;
-              wrapperRef.current.querySelector(
-                '.MuiSvgIcon-root[data-testid=ArrowLeftIcon]'
-              ).style.fill = colors.inactiveText;
-            }
-          }}
-          {...props}
-          renderInput={(params) => <InputComponent {...params} />}
-        />
-      </LocalizationProvider>
-    </div>
+      <div
+        className={`${styles.timePicker} ${className}`}
+        style={{
+          color: colors.defaultText,
+        }}
+        ref={wrapperRef}>
+        <p className={`${styles.timeDisplay}`}>{format(value, 'HH:mm')}</p>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <StaticTimePicker
+            displayStaticWrapperAs='desktop'
+            value={value}
+            onChange={(val) => {
+              setValue(val);
+            }}
+            onViewChange={(view) => {
+              // Changes hours / mins icons colours on view change
+              if (view === 'hours') {
+                wrapperRef.current.querySelector(
+                  '.MuiSvgIcon-root[data-testid=ArrowLeftIcon]'
+                ).style.fill = colors.activeBackground;
+                wrapperRef.current.querySelector(
+                  '.MuiSvgIcon-root[data-testid=ArrowRightIcon]'
+                ).style.fill = colors.inactiveText;
+              } else {
+                wrapperRef.current.querySelector(
+                  '.MuiSvgIcon-root[data-testid=ArrowRightIcon]'
+                ).style.fill = colors.activeBackground;
+                wrapperRef.current.querySelector(
+                  '.MuiSvgIcon-root[data-testid=ArrowLeftIcon]'
+                ).style.fill = colors.inactiveText;
+              }
+            }}
+            {...props}
+            renderInput={(params) => <InputComponent {...params} />}
+          />
+        </LocalizationProvider>
+      </div>
     </>
   );
 }

@@ -5,6 +5,7 @@ import dummyTasks from '@/dummy_tasks.json';
 import styles from './styles/dashboard.module.css';
 import Task from '@/components/pages/dashboard/task/task';
 import { useTheme } from '@/hooks/theme/theme';
+import NewTaskBtn from '@/components/pages/dashboard/new-task-btn/new-task-btn';
 
 export default function Tasks() {
   const [tasks, setTasks] = useState(dummyTasks);
@@ -81,6 +82,7 @@ export default function Tasks() {
               {...task}
             />
           ))}
+          <NewTaskBtn colors={colors} />
         </main>
       </>
     </>

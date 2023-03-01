@@ -1,0 +1,13 @@
+.btn {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  margin: 50px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+.plusIcon {
+  width: 70%;
+  height: auto;
+}
