@@ -1,0 +1,14 @@
+{
+  "name": "task-mate",
+  "version": "1.0.0",
+  "description": "Task managing web application",
+  "repository": "https://github.com/MRcraigchick/task-mate-next.git",
+  "author": "MRcraigchick <craigchick@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "client-dev": "yarn --cwd client dev",
+    "client-start": "yarn --cwd client start",
+    "server-watch": "yarn --cwd server-mongo-db watch",
+    "server-start": "yarn --cwd server-mongo-db start"
+  }
+}
