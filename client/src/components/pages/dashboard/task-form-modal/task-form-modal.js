@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { postData } from '@/util/backend-requests';
+import { postData, getData } from '@/util/backend-requests';
 import { BasicBtn } from '@/components/shared/buttons/buttons';
 import { Input, SubmitBtn } from '@/components/shared/form/form';
-import { useDispatch } from 'react-redux';
-import { mountUser } from '@/reducers/users';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser, loadTasks } from '@/reducers/users';
 import { addYears, endOfDay } from 'date-fns';
 import { DatePicker, TimePicker } from './pickers/pickers';
 import {
@@ -27,12 +27,18 @@ const validationSchema = yup
   })
   .required();
 
-export default function TaskFormModal({ onCloseClick, dateTime, description }) {
+export default function TaskFormModal({
+  onCloseClick,
+  dateTime = new Date(),
+  description = '',
+}) {
   const { colors } = useTheme();
   const [tab, setTab] = useState('date');
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState({
-    dateTime,
+    ends: dateTime,
     description,
   });
 
@@ -98,15 +104,7 @@ export default function TaskFormModal({ onCloseClick, dateTime, description }) {
         />
         <form
           className={styles.form}
-          onSubmit={handleSubmit(async (data) => {
-            console.log('<sfsf');
-            // const res = await postData('/tasks/update', {
-            //   details: details.replace(details[0], details[0].toUpperCase()).trim(),
-            //   ends,
-            // });
-            // if (res.error) return setUserExistsError(true);
-            // setUserExistsError(false);
-          })}>
+          onSubmit={(e) => e.preventDefault()}>
           {tab === 'date' && (
             <DatePicker
               colors={{
@@ -117,10 +115,10 @@ export default function TaskFormModal({ onCloseClick, dateTime, description }) {
                 defaultBackground: colors({ light: 'gs-300', dark: 'gs-300' }),
                 defaultText: colors({ light: 'gs-700', dark: 'gs-500' }),
               }}
-              initialDate={formValues.dateTime}
+              initialDate={formValues.ends}
               minDate={dateLimits.min}
               maxDate={dateLimits.max}
-              onChange={(dateTime) => setFormValues({ ...formValues, dateTime })}
+              onChange={(ends) => setFormValues({ ...formValues, ends })}
             />
           )}
           {tab === 'time' && (
@@ -133,10 +131,10 @@ export default function TaskFormModal({ onCloseClick, dateTime, description }) {
                 defaultBackground: colors({ light: 'gs-300', dark: 'gs-300' }),
                 defaultText: colors({ light: 'gs-700', dark: 'gs-500' }),
               }}
-              initialDate={formValues.dateTime}
-              minTime={dateLimits.min}
-              maxTime={dateLimits.max}
-              onChange={(dateTime) => setFormValues({ ...formValues, dateTime })}
+              initialDate={formValues.ends}
+              // minTime={dateLimits.min}
+              // maxTime={dateLimits.max}
+              onChange={(ends) => setFormValues({ ...formValues, ends })}
             />
           )}
           {tab === 'task' && (
@@ -148,17 +146,13 @@ export default function TaskFormModal({ onCloseClick, dateTime, description }) {
               className={styles.input}
               wrapperClass={styles.inputWrapper}
               control={control}
-              error={errors.details && true}
+              error={formValues.description.length < 1 && true}
               variant='standard'
-              defaultValue={description}
-              helperText={
-                errors.details?.type &&
-                (() => {
-                  const type = errors.details.type;
-                  if (type === 'required' || type === 'optionality')
-                    return 'Task is required';
-                })()
+              defaultValue={formValues.description}
+              onChange={(e) =>
+                setFormValues({ ...formValues, description: e.target.value })
               }
+              helperText={formValues.description.length < 1 && 'Task is required'}
               colors={inputColors}
               fonts={inputFonts}
             />
@@ -166,6 +160,7 @@ export default function TaskFormModal({ onCloseClick, dateTime, description }) {
           <div className={styles.bottomContainer}>
             {tab !== 'task' ? (
               <BasicBtn
+                type='button'
                 onClick={() => {
                   if (tab === 'date') setTab('time');
                   if (tab === 'time') setTab('task');
@@ -185,6 +180,28 @@ export default function TaskFormModal({ onCloseClick, dateTime, description }) {
                     light: 'prime-500',
                     dark: 'prime-500',
                   }),
+                }}
+                onClick={async (e) => {
+                  e.preventDefault();
+                  if (formValues.description.length < 1 || !formValues.ends) return;
+                  const res = await postData(
+                    '/tasks/add',
+                    {
+                      ...formValues,
+                      completed: false,
+                    },
+                    {
+                      Authorization: `Bearer ${user.token}`,
+                    }
+                  );
+                  if (res.error) return console.log(res.error);
+                  const tasksData = await getData('/tasks', {
+                    Authorization: `Bearer ${user.token}`,
+                  });
+                  if (tasksData.error) return console.log(tasksData.error);
+                  console.log(tasksData);
+                  dispatch(loadTasks(tasksData.tasks));
+                  onCloseClick();
                 }}>
                 OK
               </BasicBtn>

@@ -14,7 +14,8 @@ import chalk from 'chalk';
 import connectToDatbase from './db/mongo_db_connector.js';
 
 // ROUTER IMPORTS
-import authRouter from './routes/auth.js';
+import userRouter from './routes/user.js';
+import tasksRouter from './routes/tasks.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || '3000';
@@ -34,7 +35,8 @@ app.use(cors());
 app.use(cookieParser());
 
 // ROUTERS MIDDLEWARE
-app.use('/auth', authRouter);
+app.use('/user', userRouter);
+app.use('/tasks', tasksRouter);
 
 // PORT LISTENER
 app.listen(PORT, () => {

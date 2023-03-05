@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { emailValidator, passwordValidator } from '@/util/yup-validation';
-import { postData } from '@/util/backend-requests';
+import { postData, getData } from '@/util/backend-requests';
 import { Input, Password, SubmitBtn } from '@/components/shared/form/form';
 import styles from './auth.module.css';
 import { useTheme } from '@/hooks/theme/theme';
@@ -114,21 +114,27 @@ export default function SignUp() {
         <form
           className={styles.form}
           onSubmit={handleSubmit(async ({ email, password }) => {
-            const res = await postData('/users/login', {
+            const login = await postData('/user/login', {
               email: email.toLowerCase(),
               password,
             });
-            // if (res.error) return setUserNotFoundError(true);
-            // setUserNotFoundError(false);
-            //   dispatch(
-            //     mountUser({
-            //       firstName: res.firstName,
-            //       lastName: res.lastName,
-            //       email: res.email,
-            //     })
-            //   );
-            console.log('Hello');
-            router.push(`/lemmons/dashboard`);
+            if (login.error) return setUserNotFoundError(true);
+            const userRes = await getData('/user', {
+              Authorization: `Bearer ${login.token}`,
+            });
+            if (userRes.error) return setUserNotFoundError(true);
+            setUserNotFoundError(false);
+            const tasksRes = await getData('/tasks', {
+              Authorization: `Bearer ${login.token}`,
+            });
+            dispatch(
+              mountUser({
+                token: login.token,
+                ...userRes.user,
+                tasks: tasksRes.tasks ? tasksRes.tasks : [],
+              })
+            );
+            router.push(`/${userRes.user.firstName}-${userRes.user.lastName}/dashboard`);
           })}>
           {userNotFound ? (
             <p

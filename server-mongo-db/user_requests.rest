@@ -1,0 +1,41 @@
+POST http://localhost:8000/user/signup
+Content-Type: application/json
+
+{
+    "firstName": "Craig",
+    "lastName": "Chick",
+    "email": "craigchick@outlook.com",
+    "password": "1234abcd"
+}
+
+###
+
+POST http://localhost:8000/user/login
+Content-Type: application/json
+
+{
+    "email": "craigchick@outlook.com",
+    "password": "1234abcd"
+}
+###
+
+PUT http://localhost:8000/user/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQwNTBlZDQyNTAyYjcyNmQ1ZWFjMzAxIiwiaWF0IjoxNjc4MDUzMDc2fQ.ii-8q4pLzP63TmKcPDQfkK2Ch2SAE2u98Qn3iFvja5w
+
+{
+    "firstName": "Big",
+    "lastName": "Dog",
+    "email": "bigdog@outlook.com"
+}
+
+###
+
+
+DELETE http://localhost:8000/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQwNTBlZDQyNTAyYjcyNmQ1ZWFjMzAxIiwiaWF0IjoxNjc4MDUzMDc2fQ.ii-8q4pLzP63TmKcPDQfkK2Ch2SAE2u98Qn3iFvja5w
+
+###
+
+GET http://localhost:8000/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQwNTBlZDQyNTAyYjcyNmQ1ZWFjMzAxIiwiaWF0IjoxNjc4MDUzMDc2fQ.ii-8q4pLzP63TmKcPDQfkK2Ch2SAE2u98Qn3iFvja5w

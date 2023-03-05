@@ -4,12 +4,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { emailValidator, passwordValidator } from '@/util/yup-validation';
-import { postData } from '@/util/backend-requests';
+import { postData, getData } from '@/util/backend-requests';
 import { Input, Password, SubmitBtn } from '@/components/shared/form/form';
 import styles from './auth.module.css';
 import { useTheme } from '@/hooks/theme/theme';
 import { useDispatch } from 'react-redux';
 import { mountUser } from '@/reducers/users';
+import { useRouter } from 'next/router';
 
 const validationSchema = yup
   .object({
@@ -31,6 +32,7 @@ export default function SignUp() {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+  const router = useRouter();
 
   useEffect(() => {
     bodyBackgroundColors({
@@ -114,21 +116,29 @@ export default function SignUp() {
         <form
           className={styles.form}
           onSubmit={handleSubmit(async ({ firstName, lastName, email, password }) => {
-            const res = await postData('/users/signup', {
+            const signup = await postData('/user/signup', {
               firstName: firstName.replace(firstName[0], firstName[0].toUpperCase()),
               lastName: lastName.replace(lastName[0], lastName[0].toUpperCase()),
               email: email.toLowerCase(),
               password,
             });
-            // if (res.error) return setUserExistsError(true);
-            // setUserExistsError(false);
+            if (signup.error) return setUserExistsError(true);
+            const userRes = await getData('/user', {
+              Authorization: `Bearer ${signup.token}`,
+            });
+            if (userRes.error) return setUserExistsError(true);
+            setUserExistsError(false);
+            const tasksRes = await getData('/tasks', {
+              Authorization: `Bearer ${signup.token}`,
+            });
             dispatch(
               mountUser({
-                firstName,
-                lastName,
-                email,
+                token: signup.token,
+                ...userRes.user,
+                tasks: tasksRes.tasks ? tasksRes.tasks : [],
               })
             );
+            router.push(`/${userRes.user.firstName}-${userRes.user.lastName}/dashboard`);
           })}>
           {userExists ? (
             <p

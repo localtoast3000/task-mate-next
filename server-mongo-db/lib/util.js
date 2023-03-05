@@ -6,18 +6,24 @@ const emailRegEx =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 //validate body with strict number of parameters => use if all the parameters are necessary (i.e.: signup)
-export function validateReqBody({ body, expectedPropertys, allowNull }) {
+export function validateReqBody({ body, expectedPropertys, allowNull = false }) {
   if (!body) return false;
   if (Object.keys(body).length !== expectedPropertys.length) return false;
   if (!Object.keys(body).every((key) => expectedPropertys.includes(key))) return false;
   if (allowNull) return true;
   else if (
-    !Object.values(body).every(
-      (val) =>
-        ![null, 'null', NaN, 'NaN', undefined, 'undefined', false, 'false'].includes(
+    !Object.values(body).every((val) => {
+      let result = false;
+      if (
+        ![null, 'null', NaN, 'NaN', undefined, 'undefined', false, 'false', ''].includes(
           val
-        ) || val.length === 0
-    )
+        )
+      ) {
+        result = true;
+      }
+      if (val.length === 0) result = false;
+      return result;
+    })
   )
     return false;
   return true;
@@ -25,8 +31,9 @@ export function validateReqBody({ body, expectedPropertys, allowNull }) {
 
 export function isNull(data) {
   return (
-    [null, 'null', NaN, 'NaN', undefined, 'undefined', false, 'false'].includes(data) ||
-    data.length === 0
+    [null, 'null', NaN, 'NaN', undefined, 'undefined', false, 'false', ''].includes(
+      data
+    ) || data.length === 0
   );
 }
 

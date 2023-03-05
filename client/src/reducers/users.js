@@ -9,13 +9,16 @@ const user = createSlice({
     mountUser: (state, action) => {
       state.value = action.payload;
     },
+    loadTasks: (state, action) => {
+      state.value.tasks = action.payload;
+    },
     dismountUser: (state) => {
       state.value = false;
     },
   },
 });
 
-export const { mountUser, dismountUser } = user.actions;
+export const { mountUser, dismountUser, loadTasks } = user.actions;
 export const selectUser = (state) => {
   return state.user.value;
 };
