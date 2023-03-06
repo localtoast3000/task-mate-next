@@ -22,13 +22,14 @@ const validationSchema = yup
   .required();
 
 export default function SignUp() {
-  const [userExists, setUserExistsError] = useState(false);
+  const [submitErrors, setSubmitErrors] = useState({ failed: false, exists: false });
   const { theme, colors, bodyBackgroundColors, DarkModeBtn } = useTheme();
   const dispatch = useDispatch();
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -67,6 +68,15 @@ export default function SignUp() {
   const inputFonts = {
     text: 'var(--prime-font)',
     label: 'var(--prime-font)',
+  };
+
+  const resetFields = () => {
+    reset({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    });
   };
 
   return (
@@ -116,31 +126,47 @@ export default function SignUp() {
         <form
           className={styles.form}
           onSubmit={handleSubmit(async ({ firstName, lastName, email, password }) => {
-            const signup = await postData('/user/signup', {
+            let signupRes = await postData('/user/signup', {
               firstName: firstName.replace(firstName[0], firstName[0].toUpperCase()),
               lastName: lastName.replace(lastName[0], lastName[0].toUpperCase()),
               email: email.toLowerCase(),
               password,
             });
-            if (signup.error) return setUserExistsError(true);
-            const userRes = await getData('/user', {
-              Authorization: `Bearer ${signup.token}`,
+            if (signupRes.status === 409) {
+              setSubmitErrors({ ...submitErrors, exists: true });
+              resetFields();
+              return;
+            }
+            if (signupRes.status >= 300)
+              return setSubmitErrors({ ...submitErrors, failed: true });
+            signupRes = await signupRes.json();
+
+            let userRes = await getData('/user', {
+              Authorization: `Bearer ${signupRes.token}`,
             });
-            if (userRes.error) return setUserExistsError(true);
-            setUserExistsError(false);
-            const tasksRes = await getData('/tasks', {
-              Authorization: `Bearer ${signup.token}`,
+            if (userRes.status >= 300) {
+              router.push(`/login`);
+              resetFields();
+              return;
+            }
+            userRes = await userRes.json();
+
+            setSubmitErrors({ failed: false, exists: false });
+
+            let tasksRes = await getData('/tasks', {
+              Authorization: `Bearer ${signupRes.token}`,
             });
+            tasksRes = await tasksRes.json();
             dispatch(
               mountUser({
-                token: signup.token,
+                token: signupRes.token,
                 ...userRes.user,
                 tasks: tasksRes.tasks ? tasksRes.tasks : [],
               })
             );
             router.push(`/${userRes.user.firstName}-${userRes.user.lastName}/dashboard`);
           })}>
-          {userExists ? (
+          {submitErrors.exists ? (
             <p
               className={styles.submitError}
               style={{
@@ -148,8 +174,17 @@ export default function SignUp() {
               }}>
               User already exists
             </p>
+          ) : submitErrors.failed ? (
+            <p
+              className={styles.submitError}
+              style={{
+                color: inputColors.error,
+              }}>
+              Oops, something went wrong. <br />
+              Please try again
+            </p>
           ) : (
-            ''
+            <></>
           )}
           <Input
             name='firstName'

@@ -1,14 +1,14 @@
 import Modal from '@/components/shared/modal/modal';
 import { useTheme } from '@/hooks/theme/theme';
 import styles from './task-form-modal.module.css';
-import CloseIcon from '@/components/shared/icons/close';
+import CloseIcon from '@/components/shared/icons/components/close';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { postData, getData } from '@/util/backend-requests';
+import { postData, getData, deleteData, updateData } from '@/util/backend-requests';
 import { BasicBtn } from '@/components/shared/buttons/buttons';
-import { Input, SubmitBtn } from '@/components/shared/form/form';
+import { Input } from '@/components/shared/form/form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser, loadTasks } from '@/reducers/users';
 import { addYears, endOfDay } from 'date-fns';
@@ -18,6 +18,7 @@ import {
   ClockIcon,
   PencilIcon,
   RightArrowIcon,
+  BinIcon,
 } from '@/components/shared/icons/icons';
 
 const validationSchema = yup
@@ -28,23 +29,27 @@ const validationSchema = yup
   .required();
 
 export default function TaskFormModal({
-  onCloseClick,
-  dateTime = new Date(),
-  description = '',
+  onCloseRequest,
+  task = { id: '', ends: new Date(), description: '' },
+  type = 'create',
 }) {
   const { colors } = useTheme();
   const [tab, setTab] = useState('date');
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
+  const [submitErrors, setSubmitErrors] = useState({
+    failed: false,
+    exists: false,
+    invalid: false,
+  });
 
   const [formValues, setFormValues] = useState({
-    ends: dateTime,
-    description,
+    ends: task.ends,
+    description: task.description,
   });
 
   const {
     control,
-    handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -97,14 +102,30 @@ export default function TaskFormModal({
           }),
         }}>
         <Tabs
-          onCloseClick={onCloseClick}
+          onCloseRequest={onCloseRequest}
           selectedTab={setTab}
           currentTab={tab}
           colors={colors}
         />
+
         <form
           className={styles.form}
           onSubmit={(e) => e.preventDefault()}>
+          <p
+            className={styles.submitError}
+            style={{
+              color: inputColors.error,
+            }}>
+            {submitErrors.exists ? (
+              'Task already exists'
+            ) : submitErrors.invalid ? (
+              'Invalid task'
+            ) : submitErrors.failed ? (
+              'Something went wrong, please try again'
+            ) : (
+              <></>
+            )}
+          </p>
           {tab === 'date' && (
             <DatePicker
               colors={{
@@ -158,6 +179,43 @@ export default function TaskFormModal({
             />
           )}
           <div className={styles.bottomContainer}>
+            {type === 'edit' && (
+              <BasicBtn
+                type='button'
+                className={styles.deleteBtn}
+                onClick={async () => {
+                  setSubmitErrors({ failed: false, exists: false, invalid: false });
+                  const deleteRes = await deleteData(`/tasks/?id=${task.id}`, null, {
+                    Authorization: `Bearer ${user.token}`,
+                  });
+                  if (deleteRes.status >= 300)
+                    setSubmitErrors({ ...submitErrors, failed: true });
+                  let tasksRes = await getData('/tasks', {
+                    Authorization: `Bearer ${user.token}`,
+                  });
+                  tasksRes = await tasksRes.json();
+                  if (tasksRes.status >= 300) {
+                    tasksRes = await getData('/tasks', {
+                      Authorization: `Bearer ${user.token}`,
+                    });
+                  }
+                  dispatch(loadTasks(tasksRes.tasks));
+
+                  if (Object.values(submitErrors).every((err) => !err)) {
+                    onCloseRequest();
+                  }
+                }}>
+                <BinIcon
+                  className={styles.binIcon}
+                  style={{
+                    fill: colors({
+                      light: 'triad-b-600',
+                      dark: 'triad-a-300',
+                    }),
+                  }}
+                />
+              </BasicBtn>
+            )}
             {tab !== 'task' ? (
               <BasicBtn
                 type='button'
@@ -183,25 +241,58 @@ export default function TaskFormModal({
                 }}
                 onClick={async (e) => {
                   e.preventDefault();
+                  setSubmitErrors({ failed: false, exists: false, invalid: false });
                   if (formValues.description.length < 1 || !formValues.ends) return;
-                  const res = await postData(
-                    '/tasks/add',
-                    {
-                      ...formValues,
-                      completed: false,
-                    },
-                    {
-                      Authorization: `Bearer ${user.token}`,
-                    }
-                  );
-                  if (res.error) return console.log(res.error);
-                  const tasksData = await getData('/tasks', {
+                  if (type === 'edit') {
+                    let updateTaskRes = await updateData(
+                      `/tasks/update?id=${task.id}`,
+                      {
+                        ...formValues,
+                        completed: false,
+                      },
+                      {
+                        Authorization: `Bearer ${user.token}`,
+                      }
+                    );
+
+                    if (updateTaskRes.status === 406)
+                      setSubmitErrors({ ...submitErrors, invalid: true });
+                    else if (updateTaskRes.status >= 300)
+                      setSubmitErrors({ ...submitErrors, failed: true });
+                  } else {
+                    let addTaskRes = await postData(
+                      '/tasks/add',
+                      {
+                        ...formValues,
+                        completed: false,
+                      },
+                      {
+                        Authorization: `Bearer ${user.token}`,
+                      }
+                    );
+                    if (addTaskRes.status === 409)
+                      setSubmitErrors({ ...submitErrors, exists: true });
+                    else if (addTaskRes.status === 406)
+                      setSubmitErrors({ ...submitErrors, invalid: true });
+                    else if (addTaskRes.status >= 300)
+                      setSubmitErrors({ ...submitErrors, failed: true });
+                  }
+
+                  let tasksRes = await getData('/tasks', {
                     Authorization: `Bearer ${user.token}`,
                   });
-                  if (tasksData.error) return console.log(tasksData.error);
-                  console.log(tasksData);
-                  dispatch(loadTasks(tasksData.tasks));
-                  onCloseClick();
+                  if (tasksRes.status >= 300) {
+                    tasksRes = await getData('/tasks', {
+                      Authorization: `Bearer ${user.token}`,
+                    });
+                  }
+                  tasksRes = await tasksRes.json();
+
+                  dispatch(loadTasks(tasksRes.tasks));
+
+                  if (Object.values(submitErrors).every((err) => !err)) {
+                    onCloseRequest();
+                  }
                 }}>
                 OK
               </BasicBtn>
@@ -213,7 +304,7 @@ export default function TaskFormModal({
   );
 }
 
-function Tabs({ onCloseClick, colors, selectedTab, currentTab }) {
+function Tabs({ onCloseRequest, colors, selectedTab, currentTab }) {
   const selectedStyles = {
     fill: colors({
       light: 'prime-500',
@@ -275,7 +366,7 @@ function Tabs({ onCloseClick, colors, selectedTab, currentTab }) {
             dark: 'triad-a-200',
           }))
         }
-        onClick={() => onCloseClick()}
+        onClick={() => onCloseRequest()}
       />
     </div>
   );

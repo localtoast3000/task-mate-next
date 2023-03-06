@@ -2,7 +2,6 @@
   "name": "task-mate-server",
   "version": "1.0.0",
   "description": "Task Mate server",
-  "main": "app.js",
   "author": "Craig Chick",
   "license": "MIT",
   "type": "module",
@@ -11,8 +10,11 @@
     "url": "https://github.com/MRcraigchick/task-mate-next.git"
   },
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon -e * app.js"
+    "run": "yarn --cwd",
+    "auth-start": "node auth/server.js",
+    "auth-dev": "nodemon auth/server.js",
+    "app-start": "node app/server.js",
+    "app-dev": "nodemon app/server.js"
   },
   "_moduleAliases": {
     "@": "."

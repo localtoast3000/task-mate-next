@@ -20,13 +20,14 @@ const validationSchema = yup
   .required();
 
 export default function SignUp() {
-  const [userNotFound, setUserNotFoundError] = useState(false);
+  const [submitErrors, setSubmitErrors] = useState({ failed: false, notFound: false });
   const { theme, colors, bodyBackgroundColors, DarkModeBtn } = useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -65,6 +66,13 @@ export default function SignUp() {
   const inputFonts = {
     text: 'var(--prime-font)',
     label: 'var(--prime-font)',
+  };
+
+  const resetFields = () => {
+    reset({
+      email: '',
+      password: '',
+    });
   };
 
   return (
@@ -114,29 +122,44 @@ export default function SignUp() {
         <form
           className={styles.form}
           onSubmit={handleSubmit(async ({ email, password }) => {
-            const login = await postData('/user/login', {
+            let loginRes = await postData('/user/login', {
               email: email.toLowerCase(),
               password,
             });
-            if (login.error) return setUserNotFoundError(true);
-            const userRes = await getData('/user', {
-              Authorization: `Bearer ${login.token}`,
+            if (loginRes.status === 409) {
+              setSubmitErrors({ ...submitErrors, notFound: true });
+              resetFields();
+              return;
+            }
+            if (loginRes.status >= 300)
+              return setSubmitErrors({ ...submitErrors, notFound: true });
+            loginRes = await loginRes.json();
+
+            let userRes = await getData('/user', {
+              Authorization: `Bearer ${loginRes.token}`,
             });
-            if (userRes.error) return setUserNotFoundError(true);
-            setUserNotFoundError(false);
-            const tasksRes = await getData('/tasks', {
-              Authorization: `Bearer ${login.token}`,
+            if (userRes.status >= 300) {
+              return setSubmitErrors({ ...submitErrors, failed: true });
+            }
+            userRes = await userRes.json();
+
+            setSubmitErrors({ failed: false, notFound: false });
+
+            let tasksRes = await getData('/tasks', {
+              Authorization: `Bearer ${loginRes.token}`,
             });
+            tasksRes = await tasksRes.json();
+
             dispatch(
               mountUser({
-                token: login.token,
+                token: loginRes.token,
                 ...userRes.user,
                 tasks: tasksRes.tasks ? tasksRes.tasks : [],
               })
             );
             router.push(`/${userRes.user.firstName}-${userRes.user.lastName}/dashboard`);
           })}>
-          {userNotFound ? (
+          {submitErrors.notFound ? (
             <p
               className={styles.submitError}
               style={{
@@ -144,8 +167,17 @@ export default function SignUp() {
               }}>
               User not found
             </p>
+          ) : submitErrors.failed ? (
+            <p
+              className={styles.submitError}
+              style={{
+                color: inputColors.error,
+              }}>
+              Oops, something went wrong. <br />
+              Please try again
+            </p>
           ) : (
-            ''
+            <></>
           )}
 
           <Input

@@ -6,11 +6,7 @@
   "author": "MRcraigchick <craigchick@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "client-dev": "yarn --cwd client dev",
-    "client-start": "yarn --cwd client start",
-    "client-add": "yarn --cwd client add",
-    "server-dev": "yarn --cwd server-mongo-db dev",
-    "server-start": "yarn --cwd server-mongo-db start",
-    "server-add": "yarn --cwd server-mongo-db add"
+    "client": "yarn --cwd client run",
+    "servers": "yarn --cwd servers run"
   }
 }

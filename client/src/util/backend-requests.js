@@ -11,8 +11,7 @@ export async function searchData(endpoint, queryObj) {
   const url = new URL(constructURL(endpoint));
   Object.keys(queryObj).forEach((key) => url.searchParams.append(key, queryObj[key]));
   const result = await fetch(url);
-  const res = await result.json();
-  return res;
+  return result;
 }
 
 export async function getData(endpoint, headers = {}) {
@@ -22,12 +21,10 @@ export async function getData(endpoint, headers = {}) {
       ...headers,
     },
   });
-  const res = await result.json();
-  return res;
+  return result;
 }
 
 export async function postData(endpoint, data, headers = {}) {
-  console.log(data);
   const result = await fetch(constructURL(endpoint), {
     method: 'POST',
     headers: {
@@ -36,18 +33,29 @@ export async function postData(endpoint, data, headers = {}) {
     },
     body: JSON.stringify(data),
   });
-  const res = await result.json();
-  return res;
+  return result;
 }
 
-export async function deleteData(endpoint, data) {
+export async function deleteData(endpoint, data, headers = {}) {
   const result = await fetch(constructURL(endpoint), {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
+      ...headers,
     },
-    body: JSON.stringify(data),
+    body: data && JSON.stringify(data),
   });
-  const res = await result.json();
-  return res;
+  return result;
+}
+
+export async function updateData(endpoint, data, headers = {}) {
+  const result = await fetch(constructURL(endpoint), {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers,
+    },
+    body: data && JSON.stringify(data),
+  });
+  return result;
 }

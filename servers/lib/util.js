@@ -1,3 +1,9 @@
+import util from 'util';
+
+export function inspect(itemToInspect) {
+  console.log(util.inspect(itemToInspect, false, Infinity, true));
+}
+
 export function caseInsensitiveSearchString(searchString) {
   return new RegExp(`^${searchString}$`, 'i');
 }

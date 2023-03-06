@@ -37,18 +37,36 @@
 .textWrapper:nth-child(1) {
   margin-bottom: 10px;
 }
-.editIcon {
-  cursor: pointer;
+.controlBtnsContainer {
+  display: grid;
+  height: 100%;
+  gap: 20px;
+  align-self: start;
+}
+.editBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30px;
-  height: auto;
+  height: 40px;
+  background-color: transparent;
+  grid-column: 3;
   align-self: start;
   justify-self: end;
-  opacity: 1;
-  transition: opacity 0.2s ease-in;
 }
-.editIcon:hover {
-  opacity: 0.7;
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 40px;
+  background-color: transparent;
+  grid-column: 3;
+  align-self: end;
+  justify-self: end;
 }
-.editIcon:active {
-  opacity: 1;
+.editIcon,
+.binIcon {
+  width: 100%;
+  height: auto;
 }
