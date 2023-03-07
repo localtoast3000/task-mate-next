@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { postData, getData, deleteData, updateData } from '@/util/backend-requests';
+import { postData, getData, deleteData, updateData } from '@/api/requests';
 import { BasicBtn } from '@/components/shared/buttons/buttons';
 import { Input } from '@/components/shared/form/form';
 import { useDispatch, useSelector } from 'react-redux';

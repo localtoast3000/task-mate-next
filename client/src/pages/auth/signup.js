@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { emailValidator, passwordValidator } from '@/util/yup-validation';
-import { postData, getData } from '@/util/backend-requests';
+import { postData, getData } from '@/api/requests';
 import { Input, Password, SubmitBtn } from '@/components/shared/form/form';
 import styles from './auth.module.css';
 import { useTheme } from '@/hooks/theme/theme';
@@ -142,7 +142,7 @@ export default function SignUp() {
             signupRes = await signupRes.json();
 
             let userRes = await getData('/user', {
-              Authorization: `Bearer ${signupRes.token}`,
+              Authorization: `Bearer ${signupRes.accessToken}`,
             });
             if (userRes.status >= 300) {
               router.push(`/login`);
@@ -154,12 +154,15 @@ export default function SignUp() {
             setSubmitErrors({ failed: false, exists: false });
 
             let tasksRes = await getData('/tasks', {
-              Authorization: `Bearer ${signupRes.token}`,
+              Authorization: `Bearer ${signupRes.accessToken}`,
             });
             tasksRes = await tasksRes.json();
             dispatch(
               mountUser({
-                token: signupRes.token,
+                tokens: {
+                  access: signupRes.accesToken,
+                  refresh: signupRes.refreshToken,
+                },
                 ...userRes.user,
                 tasks: tasksRes.tasks ? tasksRes.tasks : [],
               })

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, loadTasks } from '@/reducers/users';
 import DateTime from '@/util/date-time';
-import { deleteData, getData } from '@/util/backend-requests';
+import { deleteData, getData } from '@/api/requests';
 import { BasicBtn } from '@/components/shared/buttons/buttons';
 import { EditIcon, BinIcon } from '@/components/shared/icons/icons';
 import { useTheme } from '@/hooks/theme/theme';

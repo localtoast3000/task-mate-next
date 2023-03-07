@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { emailValidator, passwordValidator } from '@/util/yup-validation';
-import { postData, getData } from '@/util/backend-requests';
+import { loginRequest, getData } from '@/api/requests';
 import { Input, Password, SubmitBtn } from '@/components/shared/form/form';
 import styles from './auth.module.css';
 import { useTheme } from '@/hooks/theme/theme';
@@ -20,7 +20,7 @@ const validationSchema = yup
   .required();
 
 export default function SignUp() {
-  const [submitErrors, setSubmitErrors] = useState({ failed: false, notFound: false });
+  const [submitError, setSubmitError] = useState(false);
   const { theme, colors, bodyBackgroundColors, DarkModeBtn } = useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -122,21 +122,13 @@ export default function SignUp() {
         <form
           className={styles.form}
           onSubmit={handleSubmit(async ({ email, password }) => {
-            let loginRes = await postData('/user/login', {
+            const loginRes = await loginRequest({
               email: email.toLowerCase(),
               password,
             });
-            if (loginRes.status === 409) {
-              setSubmitErrors({ ...submitErrors, notFound: true });
-              resetFields();
-              return;
-            }
-            if (loginRes.status >= 300)
-              return setSubmitErrors({ ...submitErrors, notFound: true });
-            loginRes = await loginRes.json();
 
             let userRes = await getData('/user', {
-              Authorization: `Bearer ${loginRes.token}`,
+              Authorization: `Bearer ${loginRes.accesToken}`,
             });
             if (userRes.status >= 300) {
               return setSubmitErrors({ ...submitErrors, failed: true });
@@ -146,20 +138,23 @@ export default function SignUp() {
             setSubmitErrors({ failed: false, notFound: false });
 
             let tasksRes = await getData('/tasks', {
-              Authorization: `Bearer ${loginRes.token}`,
+              Authorization: `Bearer ${loginRes.accesToken}`,
             });
             tasksRes = await tasksRes.json();
 
             dispatch(
               mountUser({
-                token: loginRes.token,
+                tokens: {
+                  access: loginRes.accesToken,
+                  refresh: loginRes.refreshToken,
+                },
                 ...userRes.user,
                 tasks: tasksRes.tasks ? tasksRes.tasks : [],
               })
             );
             router.push(`/${userRes.user.firstName}-${userRes.user.lastName}/dashboard`);
           })}>
-          {submitErrors.notFound ? (
+          {submitError && (
             <p
               className={styles.submitError}
               style={{
@@ -167,17 +162,6 @@ export default function SignUp() {
               }}>
               User not found
             </p>
-          ) : submitErrors.failed ? (
-            <p
-              className={styles.submitError}
-              style={{
-                color: inputColors.error,
-              }}>
-              Oops, something went wrong. <br />
-              Please try again
-            </p>
-          ) : (
-            <></>
           )}
 
           <Input

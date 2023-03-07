@@ -6,22 +6,7 @@ import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
-router.post('/token', async (req, res) => {
-  const refreshToken = req.body.token;
-  if (refreshToken == null) return res.sendStatus(401);
-  if (!refreshToken.includes(refreshToken)) return res.sendStatus(403);
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, data) => {
-    if (err) return sendStatus(403);
-    const accessToken = jwt.sign(
-      { user_id: data.user_id },
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: process.env.ACESSS_TOKEN_EXPIRATION_TIME,
-      }
-    );
-    res.json({ accessToken });
-  });
-});
+let refreshTokens = [];
 
 router.post('/signup', async (req, res) => {
   if (
@@ -52,6 +37,7 @@ router.post('/signup', async (req, res) => {
         expiresIn: process.env.ACESSS_TOKEN_EXPIRATION_TIME,
       });
       const refreshToken = jwt.sign({ user_id: _id }, process.env.REFRESH_TOKEN_SECRET);
+      refreshTokens.push(refreshToken);
 
       res.json({ accessToken, refreshToken });
     } catch (e) {
@@ -82,6 +68,7 @@ router.post('/login', async (req, res) => {
           expiresIn: process.env.ACESSS_TOKEN_EXPIRATION_TIME,
         });
         const refreshToken = jwt.sign({ user_id: _id }, process.env.REFRESH_TOKEN_SECRET);
+        refreshTokens.push(refreshToken);
 
         res.json({ accessToken, refreshToken });
         return;
@@ -95,6 +82,28 @@ router.post('/login', async (req, res) => {
   } else {
     res.sendStatus(406);
   }
+});
+
+router.post('/token', async (req, res) => {
+  const refreshToken = req.body.token;
+  if (refreshToken == null) return res.sendStatus(401);
+  if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403);
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, data) => {
+    if (err) return sendStatus(403);
+    const accessToken = jwt.sign(
+      { user_id: data.user_id },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: process.env.ACESSS_TOKEN_EXPIRATION_TIME,
+      }
+    );
+    res.json({ accessToken });
+  });
+});
+
+router.delete('/logout', async (req, res) => {
+  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+  res.sendStatus(204);
 });
 
 export default router;
